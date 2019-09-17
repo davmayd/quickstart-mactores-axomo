@@ -1,0 +1,46 @@
+[
+    {
+        "ParameterKey": "QSS3BucketName",
+        "ParameterValue": "aws-quickstart-mactores-no-vpc"
+    },
+	{
+        "ParameterKey":"QSS3KeyPrefix",
+        "ParameterValue":"quickstart-examples/"
+    },
+    {
+        "ParameterKey": "VPCID",
+        "ParameterValue": "vpc-7f36f906"
+    },
+    {
+        "ParameterKey": "CrawlerDBname",
+        "ParameterValue": "el-db-crawler"
+    },
+    {
+        "ParameterKey": "AthenaDBname",
+        "ParameterValue": "el-db"
+    },
+    {
+        "ParameterKey": "DmsInstanceClass",
+        "ParameterValue": "dms.t2.micro"
+    },
+    {
+        "ParameterKey": "S3BucketName",
+        "ParameterValue": "$[taskcat_autobucket]"
+    },
+    {
+        "ParameterKey": "ProjectTag",
+        "ParameterValue": "El-Dorado"
+    },
+    {
+        "ParameterKey": "EnvTag",
+        "ParameterValue": "Dev"
+    },
+    {
+        "ParameterKey": "SagemakerEndpointConfigInstanceType",
+        "ParameterValue": "ml.m4.xlarge"
+    },
+    {
+        "ParameterKey":"SagemakerModelName",
+        "ParameterValue":"el-dorado-model"
+    }
+]

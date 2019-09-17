@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion":"2010-09-09",
-    "Description":"This CloudFormation template creates EL-DORADO infrastructure. Authored by Mactores",
+    "Description":"This CloudFormation template creates a new VPC in your AWS account and deploys the EL-DORADO infrastructure in the new VPC. Authored by Mactores.",
     "Metadata":{
         "AWS::CloudFormation::Interface":{
             "ParameterGroups":[
@@ -44,7 +44,7 @@
                 },
                 {
                     "Label":{
-                        "default":"Workload Sagemaker configuration"
+                        "default":"Sagemaker configuration"
                     },
                     "Parameters":[
                         "SagemakerEndpointConfigInstanceType",
@@ -53,17 +53,15 @@
                 },
                 {
                     "Label":{
-                        "default":"Workload Glue configuration"
+                        "default":"Glue configuration"
                     },
                     "Parameters":[
-                        "GlueJobS3Folder",
-                        "CrawlerDBname",
-                        "GlueCrawlerS3Folder"
+                        "CrawlerDBname"
                     ]
                 },
                 {
                     "Label":{
-                        "default":"Workload Athena configuration"
+                        "default":"Athena configuration"
                     },
                     "Parameters":[
                         "AthenaDBname"
@@ -71,7 +69,7 @@
                 },
                 {
                     "Label":{
-                        "default":"Workload DMS instance configuration"
+                        "default":"DMS instance configuration"
                     },
                     "Parameters":[
                         "DmsInstanceClass"
@@ -79,7 +77,7 @@
                 },
                 {
                     "Label":{
-                        "default":"Workload S3 configuration"
+                        "default":"S3 configuration"
                     },
                     "Parameters":[
                         "S3BucketName"
@@ -87,10 +85,11 @@
                 },
                 {
                     "Label":{
-                        "default":"Workload components tagging"
+                        "default":"components tagging"
                     },
                     "Parameters":[
-                        "ProjectTag"
+                        "ProjectTag",
+						"EnvTag"
                     ]
                 }
             ],
@@ -146,14 +145,8 @@
                 "QSS3KeyPrefix":{
                     "default":"Quick Start S3 key prefix"
                 },
-                "GlueJobS3Folder":{
-                    "default":"Glue Script S3 location"
-                },
                 "CrawlerDBname":{
                     "default":"DB name for Glue crawler"
-                },
-                "GlueCrawlerS3Folder":{
-                    "default":"Glue Crawler S3 Target Path"
                 },
                 "AthenaDBname":{
                     "default":"Athena DB name"
@@ -166,6 +159,9 @@
                 },
                 "ProjectTag":{
                     "default":"Value for Project Tag"
+                },
+				"EnvTag":{
+                    "default":"Value for Environment Tag"
                 },
                 "SagemakerEndpointConfigInstanceType":{
                     "default":"Instance Type for Sagemaker EndpointConfig"
@@ -288,8 +284,7 @@
             "Description":"S3 bucket name for the Quick Start assets. This string can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).",
             "Type":"String",
             "AllowedPattern":"^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$",
-            "ConstraintDescription":"Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).",
-            "Default":"aws-quickstart-mactores"
+            "ConstraintDescription":"Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
         },
         "QSS3KeyPrefix":{
             "Description":"S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
@@ -299,18 +294,34 @@
             "Default":"quickstart-examples/"
         },
         "S3BucketName":{
-            "Description":"Name of the S3 bucket. Bucket name must contain only lowercase letters, numbers, periods and dashes.",
+            "Description":"S3 bucket name for the target location for Glue crawlers. Bucket name must contain only lowercase letters, numbers, periods and dashes.",
             "Type":"String",
             "Default":""
         },
         "ProjectTag":{
-            "Description":"The Project tag.",
+            "Description":"Value for the Project tag to be associated with all the deployed components. Tags make it easier to manage, search for, and filter resources for Billing and tracking purposes.",
             "Type":"String",
             "Default":"El-Dorado"
+        },
+		"EnvTag":{
+            "Description":"Value for the Environment tag to be associated with all the deployed components. Tags make it easier to manage, search for, and filter resources for Billing and tracking purposes. Can be Dev, Prd or any custom value",
+            "Type":"String",
+            "Default":"Dev"
         },
         "DmsInstanceClass":{
             "Description":"Instance class for the DMS ReplicationInstance.",
             "Type":"String",
+            "AllowedValues":[
+                "dms.t2.micro",
+                "dms.t2.small",
+                "dms.t2.medium",
+                "dms.t2.large",
+                "dms.c4.large",
+                "dms.c4.xlarge",
+                "dms.c4.2xlarge",
+                "dms.c4.4xlarge"
+            ],
+            "ConstraintDescription":"Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge",
             "Default":"dms.t2.micro"
         },
         "AthenaDBname":{
@@ -318,24 +329,49 @@
             "Type":"String",
             "Default":"el-db"
         },
-        "GlueJobS3Folder":{
-            "Description":"S3 folder path holding the glue job script.",
-            "Type":"String",
-            "Default":"s3://aws-glue-scripts-656441707956-us-east-1/job/scripts"
-        },
         "CrawlerDBname":{
             "Description":"The name of the database in which the crawler's output is stored.",
             "Type":"String",
             "Default":"el-db-crawler"
         },
-        "GlueCrawlerS3Folder":{
-            "Description":"The path to the Amazon S3 target.",
-            "Type":"String",
-            "Default":"s3://aws-glue-scripts-656441707956-us-east-1/crawler/target"
-        },
         "SagemakerEndpointConfigInstanceType":{
             "Description":"Instance Type for the Sagemaker Endpoint Config.",
             "Type":"String",
+            "AllowedValues":[
+                "ml.c4.2xlarge",
+                "ml.c4.4xlarge",
+                "ml.c4.8xlarge",
+                "ml.c4.large",
+                "ml.c4.xlarge",
+                "ml.c5.18xlarge",
+                "ml.c5.2xlarge",
+                "ml.c5.4xlarge",
+                "ml.c5.9xlarge",
+                "ml.c5.large",
+                "ml.c5.xlarge",
+                "ml.m4.10xlarge",
+                "ml.m4.16xlarge",
+                "ml.m4.2xlarge",
+                "ml.m4.4xlarge",
+                "ml.m4.xlarge",
+                "ml.m5.12xlarge",
+                "ml.m5.24xlarge",
+                "ml.m5.2xlarge",
+                "ml.m5.4xlarge",
+                "ml.m5.large",
+                "ml.m5.xlarge",
+                "ml.p2.16xlarge",
+                "ml.p2.8xlarge",
+                "ml.p2.xlarge",
+                "ml.p3.16xlarge",
+                "ml.p3.2xlarge",
+                "ml.p3.8xlarge",
+                "ml.t2.2xlarge",
+                "ml.t2.large",
+                "ml.t2.medium",
+                "ml.t2.xlarge"
+            ],
+            "ConstraintDescription":"Allowed Values: ml.c4.2xlarge | ml.c4.4xlarge | ml.c4.8xlarge | ml.c4.large | ml.c4.xlarge | ml.c5.18xlarge | ml.c5.2xlarge | ml.c5.4xlarge | ml.c5.9xlarge | ml.c5.large | ml.c5.xlarge | ml.m4.10xlarge | ml.m4.16xlarge | ml.m4.2xlarge | ml.m4.4xlarge | ml.m4.xlarge | ml.m5.12xlarge | ml.m5.24xlarge | ml.m5.2xlarge | ml.m5.4xlarge | ml.m5.large | ml.m5.xlarge | ml.p2.16xlarge | ml.p2.8xlarge | ml.p2.xlarge | ml.p3.16xlarge | ml.p3.2xlarge | ml.p3.8xlarge | ml.t2.2xlarge | ml.t2.large | ml.t2.medium | ml.t2.xlarge",
             "Default":"ml.m4.xlarge"
         },
         "SagemakerModelName":{
@@ -349,7 +385,7 @@
             "Type":"AWS::CloudFormation::Stack",
             "Properties":{
                 "TemplateURL":{
-                    "Fn::Sub":"https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/el-dorado-vpc.template"
+                    "Fn::Sub":"https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/aws-vpc.template"
                 },
                 "Parameters":{
                     "AvailabilityZones":{
@@ -431,20 +467,17 @@
                     "ProjectTag":{
                         "Ref":"ProjectTag"
                     },
+					"EnvTag":{
+                        "Ref":"EnvTag"
+                    },
                     "DmsInstanceClass":{
                         "Ref":"DmsInstanceClass"
                     },
                     "AthenaDBname":{
                         "Ref":"AthenaDBname"
                     },
-                    "GlueJobS3Folder":{
-                        "Ref":"GlueJobS3Folder"
-                    },
                     "CrawlerDBname":{
                         "Ref":"CrawlerDBname"
-                    },
-                    "GlueCrawlerS3Folder":{
-                        "Ref":"GlueCrawlerS3Folder"
                     },
                     "SagemakerEndpointConfigInstanceType":{
                         "Ref":"SagemakerEndpointConfigInstanceType"
