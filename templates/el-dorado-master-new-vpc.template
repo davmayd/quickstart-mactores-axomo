@@ -89,7 +89,7 @@
                     },
                     "Parameters":[
                         "ProjectTag",
-						"EnvTag"
+                        "EnvTag"
                     ]
                 }
             ],
@@ -160,7 +160,7 @@
                 "ProjectTag":{
                     "default":"Value for Project Tag"
                 },
-				"EnvTag":{
+                "EnvTag":{
                     "default":"Value for Environment Tag"
                 },
                 "SagemakerEndpointConfigInstanceType":{
@@ -291,7 +291,7 @@
             "Type":"String",
             "AllowedPattern":"^[0-9a-zA-Z-/]*$",
             "ConstraintDescription":"Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
-            "Default":"quickstart-examples/"
+            "Default":"quickstart-mactores-eldorado/"
         },
         "S3BucketName":{
             "Description":"S3 bucket name for the target location for Glue crawlers. Bucket name must contain only lowercase letters, numbers, periods and dashes.",
@@ -303,7 +303,7 @@
             "Type":"String",
             "Default":"El-Dorado"
         },
-		"EnvTag":{
+        "EnvTag":{
             "Description":"Value for the Environment tag to be associated with all the deployed components. Tags make it easier to manage, search for, and filter resources for Billing and tracking purposes. Can be Dev, Prd or any custom value",
             "Type":"String",
             "Default":"Dev"
@@ -461,13 +461,37 @@
                             "Outputs.VPCID"
                         ]
                     },
+                    "PrivateSubnet1AID":{
+                        "Fn::GetAtt":[
+                            "VPCStack",
+                            "Outputs.PrivateSubnet1AID"
+                        ]
+                    },
+                    "PrivateSubnet2AID":{
+                        "Fn::GetAtt":[
+                            "VPCStack",
+                            "Outputs.PrivateSubnet2AID"
+                        ]
+                    },
+                    "PublicSubnet1ID":{
+                        "Fn::GetAtt":[
+                            "VPCStack",
+                            "Outputs.PublicSubnet1ID"
+                        ]
+                    },
+                    "PublicSubnet2ID":{
+                        "Fn::GetAtt":[
+                            "VPCStack",
+                            "Outputs.PublicSubnet2ID"
+                        ]
+                    },
                     "S3BucketName":{
                         "Ref":"S3BucketName"
                     },
                     "ProjectTag":{
                         "Ref":"ProjectTag"
                     },
-					"EnvTag":{
+                    "EnvTag":{
                         "Ref":"EnvTag"
                     },
                     "DmsInstanceClass":{
@@ -486,6 +510,44 @@
                         "Ref":"SagemakerModelName"
                     }
                 }
+            }
+        }
+    },
+    "Outputs":{
+        "S3bucketArn":{
+            "Description":"Amazon Resource Name (ARN) of the specified bucket.",
+            "Value":{
+                "Fn::GetAtt":[
+                    "WorkloadStack",
+                    "Outputs.S3bucketArn"
+                ]
+            }
+        },
+        "DMSInstanceARN":{
+            "Description":"Amazon Resource Name (ARN) of the DMS ReplicationInstance.",
+            "Value":{
+                "Fn::GetAtt":[
+                    "WorkloadStack",
+                    "Outputs.DMSInstanceARN"
+                ]
+            }
+        },
+        "SagemakerEndpointConfigARN":{
+            "Description":"Amazon Resource Name (ARN) of the sagemaker endpoint configuration.",
+            "Value":{
+                "Fn::GetAtt":[
+                    "WorkloadStack",
+                    "Outputs.SagemakerEndpointConfigARN"
+                ]
+            }
+        },
+        "SagemakerEndpointARN":{
+            "Description":"Amazon Resource Name (ARN) of the SagemakerEndpoint.",
+            "Value":{
+                "Fn::GetAtt":[
+                    "WorkloadStack",
+                    "Outputs.SagemakerEndpointARN"
+                ]
             }
         }
     }

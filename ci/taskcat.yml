@@ -1,6 +1,6 @@
 global:
   marketplace-ami: false
-  owner: krutika@mactores.com
+  owner: quickstart-eng@amazon.com
   qsname: quickstart-mactores-eldorado
   regions:
     - us-west-2
@@ -8,18 +8,10 @@ global:
     - us-east-2
     - eu-west-1
   reporting: true
- 
+
 tests:
-#  quickstart-mactores-eldorado-test1:
-#    parameter_input: el-dorado-master-existing-vpc-params1.json
-#    template_file: el-dorado-master-existing-vpc.template
-#    regions:
-#      - us-west-2
-#      - us-east-1
-  quickstart-mactores-eldorado-test2:
+  quickstart-mactores-eldorado-test1:
     parameter_input: el-dorado-master-new-vpc-params1.json
     template_file: el-dorado-master-new-vpc.template
     regions:
-      - us-west-2
       - us-east-1
-    

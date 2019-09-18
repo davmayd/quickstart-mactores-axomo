@@ -18,7 +18,11 @@
                         "default":"Network configuration"
                     },
                     "Parameters":[
-                        "VPCID"
+                        "VPCID",
+                        "PrivateSubnet1AID",
+                        "PrivateSubnet2AID",
+                        "PublicSubnet1ID",
+                        "PublicSubnet2ID"
                     ]
                 },
                 {
@@ -73,40 +77,50 @@
                 }
             ],
             "ParameterLabels":{
-                "ParameterLabels":{
-                    "QSS3BucketName":{
-                        "default":"Quick Start S3 bucket name"
-                    },
-                    "QSS3KeyPrefix":{
-                        "default":"Quick Start S3 key prefix"
-                    },
-                    "VPCID":{
-                        "default":"VPC ID"
-                    },
-                    "CrawlerDBname":{
-                        "default":"DB name for Glue crawler"
-                    },
-                    "AthenaDBname":{
-                        "default":"Athena DB name"
-                    },
-                    "DmsInstanceClass":{
-                        "default":"Instance Class for DMS"
-                    },
-                    "S3BucketName":{
-                        "default":"S3 Bucket Name"
-                    },
-                    "ProjectTag":{
-                        "default":"Value for Project Tag"
-                    },
-                    "EnvTag":{
-                        "default":"Value for Environment Tag"
-                    },
-                    "SagemakerEndpointConfigInstanceType":{
-                        "default":"Instance Type for Sagemaker EndpointConfig"
-                    },
-                    "SagemakerModelName":{
-                        "default":"Model Name for Sagemaker"
-                    }
+                "QSS3BucketName":{
+                    "default":"Quick Start S3 bucket name"
+                },
+                "QSS3KeyPrefix":{
+                    "default":"Quick Start S3 key prefix"
+                },
+                "VPCID":{
+                    "default":"VPC ID"
+                },
+                "PrivateSubnet1AID":{
+                    "default":"Private subnet 1A ID in Availability Zone 1"
+                },
+                "PrivateSubnet2AID":{
+                    "default":"Private subnet 2A ID in Availability Zone 2"
+                },
+                "PublicSubnet1ID":{
+                    "default":"Public subnet 1 ID in Availability Zone 1"
+                },
+                "PublicSubnet2ID":{
+                    "default":"Public subnet 2 ID in Availability Zone 2"
+                },
+                "CrawlerDBname":{
+                    "default":"DB name for Glue crawler"
+                },
+                "AthenaDBname":{
+                    "default":"Athena DB name"
+                },
+                "DmsInstanceClass":{
+                    "default":"Instance Class for DMS"
+                },
+                "S3BucketName":{
+                    "default":"S3 Bucket Name"
+                },
+                "ProjectTag":{
+                    "default":"Value for Project Tag"
+                },
+                "EnvTag":{
+                    "default":"Value for Environment Tag"
+                },
+                "SagemakerEndpointConfigInstanceType":{
+                    "default":"Instance Type for Sagemaker EndpointConfig"
+                },
+                "SagemakerModelName":{
+                    "default":"Model Name for Sagemaker"
                 }
             }
         }
@@ -123,11 +137,27 @@
             "Type":"String",
             "AllowedPattern":"^[0-9a-zA-Z-/]*$",
             "ConstraintDescription":"Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
-            "Default":"quickstart-examples/"
+            "Default":"quickstart-mactores-eldorado/"
         },
         "VPCID":{
             "Description":"ID of your existing VPC for deployment.",
             "Type":"AWS::EC2::VPC::Id"
+        },
+        "PrivateSubnet1AID":{
+            "Description":"ID of existing Private subnet 1A in Availability Zone 1.",
+            "Type":"AWS::EC2::Subnet::Id"
+        },
+        "PrivateSubnet2AID":{
+            "Description":"ID of existing Private subnet 2A in Availability Zone 2.",
+            "Type":"AWS::EC2::Subnet::Id"
+        },
+        "PublicSubnet1ID":{
+            "Description":"ID of existing Public subnet 1 in Availability Zone 1.",
+            "Type":"AWS::EC2::Subnet::Id"
+        },
+        "PublicSubnet2ID":{
+            "Description":"ID of existing Public subnet 2 in Availability Zone 2.",
+            "Type":"AWS::EC2::Subnet::Id"
         },
         "S3BucketName":{
             "Description":"S3 bucket name for the target location for Glue crawlers. Bucket name must contain only lowercase letters, numbers, periods and dashes.",
@@ -271,14 +301,6 @@
             },
             "sa-east-1":{
                 "ImageURI":"656441707956.dkr.ecr.sa-east-1.amazonaws.com/el-dorado:latest"
-            }
-        },
-        "ModelS3Map":{
-            "us-east-1":{
-                "S3Path":""
-            },
-            "us-west-2":{
-                "S3Path":""
             }
         }
     },
@@ -488,7 +510,6 @@
             }
         },
         "GlueJob":{
-            "DependsOn":"GlueJobRole",
             "Type":"AWS::Glue::Job",
             "Properties":{
                 "Command":{
@@ -515,7 +536,6 @@
             }
         },
         "GlueCrawler":{
-            "DependsOn":"GlueJobRole",
             "Type":"AWS::Glue::Crawler",
             "Properties":{
                 "DatabaseName":{
@@ -580,6 +600,11 @@
                                 },
                                 {
                                     "Effect":"Allow",
+                                    "Action":"ec2:*",
+                                    "Resource":"*"
+                                },
+                                {
+                                    "Effect":"Allow",
                                     "Action":"s3:GetObject",
                                     "Resource":[
                                         {
@@ -629,6 +654,11 @@
                                             ]
                                         }
                                     ]
+                                },
+                                {
+                                    "Effect":"Allow",
+                                    "Action":"sagemaker:InvokeEndpoint",
+                                    "Resource":"*"
                                 }
                             ]
                         }
@@ -650,7 +680,7 @@
                                 {
                                     "Ref":"QSS3KeyPrefix"
                                 },
-                                "scripts/function.zip"
+                                "functions/packages/invokesagemaker/function.zip"
                             ]
                         ]
                     }
@@ -681,7 +711,83 @@
                         }
                     }
                 ],
-                "Timeout":60
+                "Timeout":60,
+                "VpcConfig":{
+                    "SecurityGroupIds":[
+                        {
+                            "Ref":"SecurityGroup"
+                        }
+                    ],
+                    "SubnetIds":[
+                        {
+                            "Ref":"PrivateSubnet1AID"
+                        },
+                        {
+                            "Ref":"PrivateSubnet2AID"
+                        },
+                        {
+                            "Ref":"PublicSubnet1ID"
+                        },
+                        {
+                            "Ref":"PublicSubnet2ID"
+                        }
+                    ]
+                }
+            }
+        },
+        "SecurityGroup":{
+            "Type":"AWS::EC2::SecurityGroup",
+            "Properties":{
+                "GroupDescription":"Allow lambda connectivity to VPC resources.",
+                "SecurityGroupIngress":[
+                    {
+                        "IpProtocol":"-1",
+                        "CidrIp":"0.0.0.0/0"
+                    }
+                ],
+                "Tags":[
+                    {
+                        "Key":"Project",
+                        "Value":{
+                            "Ref":"ProjectTag"
+                        }
+                    },
+                    {
+                        "Key":"Env",
+                        "Value":{
+                            "Ref":"EnvTag"
+                        }
+                    }
+                ],
+                "VpcId":{
+                    "Ref":"VPCID"
+                }
+            }
+        },
+        "BasicReplicationInstance":{
+            "Type":"AWS::DMS::ReplicationInstance",
+            "Properties":{
+                "PubliclyAccessible":false,
+                "ReplicationInstanceClass":{
+                    "Ref":"DmsInstanceClass"
+                },
+                "ReplicationInstanceIdentifier":{
+                    "Ref":"S3BucketName"
+                },
+                "Tags":[
+                    {
+                        "Key":"Project",
+                        "Value":{
+                            "Ref":"ProjectTag"
+                        }
+                    },
+                    {
+                        "Key":"Env",
+                        "Value":{
+                            "Ref":"EnvTag"
+                        }
+                    }
+                ]
             }
         },
         "SagemakerExecutionRole":{
@@ -808,7 +914,11 @@
                                 {
                                     "Ref":"QSS3BucketName"
                                 },
-                                "/quickstart-examples/scripts/model-ll.tar.gz"
+                                "/",
+                                {
+                                    "Ref":"QSS3KeyPrefix"
+                                },
+                                "scripts/model-ll.tar.gz"
                             ]
                         ]
                     }
@@ -871,6 +981,34 @@
                     }
                 ]
             }
+        },
+        "SagemakerEndpoint":{
+            "Type":"AWS::SageMaker::Endpoint",
+            "Properties":{
+                "EndpointConfigName":{
+                    "Fn::GetAtt":[
+                        "SagemakerEndpointConfig",
+                        "EndpointConfigName"
+                    ]
+                },
+                "EndpointName":{
+                    "Ref":"SagemakerModelName"
+                },
+                "Tags":[
+                    {
+                        "Key":"Project",
+                        "Value":{
+                            "Ref":"ProjectTag"
+                        }
+                    },
+                    {
+                        "Key":"Env",
+                        "Value":{
+                            "Ref":"EnvTag"
+                        }
+                    }
+                ]
+            }
         }
     },
     "Outputs":{
@@ -883,11 +1021,23 @@
             },
             "Description":"Amazon Resource Name (ARN) of the specified bucket."
         },
+        "DMSInstanceARN":{
+            "Description":"Amazon Resource Name (ARN) of the DMS ReplicationInstance.",
+            "Value":{
+                "Ref":"BasicReplicationInstance"
+            }
+        },
         "SagemakerEndpointConfigARN":{
             "Value":{
                 "Ref":"SagemakerEndpointConfig"
             },
             "Description":"Amazon Resource Name (ARN) of the sagemaker endpoint configuration."
+        },
+        "SagemakerEndpointARN":{
+            "Value":{
+                "Ref":"SagemakerEndpoint"
+            },
+            "Description":"Amazon Resource Name (ARN) of the SagemakerEndpoint."
         }
     }
 }

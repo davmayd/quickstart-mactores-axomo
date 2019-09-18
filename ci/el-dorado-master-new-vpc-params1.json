@@ -61,11 +61,11 @@
     },
 	{
         "ParameterKey": "QSS3BucketName",
-        "ParameterValue": "aws-quickstart-mactores-vpc"
+        "ParameterValue": "$[taskcat_autobucket]"
     },
 	{
         "ParameterKey":"QSS3KeyPrefix",
-        "ParameterValue":"quickstart-examples/"
+        "ParameterValue":"quickstart-mactores-eldorado/"
     },
     {
         "ParameterKey": "CrawlerDBname",
@@ -81,7 +81,7 @@
     },
     {
         "ParameterKey": "S3BucketName",
-        "ParameterValue": "$[taskcat_autobucket]"
+        "ParameterValue": "$[taskcat_random-string]"
     },
     {
         "ParameterKey": "ProjectTag",
