@@ -55,7 +55,8 @@
                         "default":"DMS instance configuration"
                     },
                     "Parameters":[
-                        "DmsInstanceClass"
+                        "DmsInstanceClass",
+                        "CreateDMSRoles"
                     ]
                 },
                 {
@@ -106,6 +107,9 @@
                 },
                 "DmsInstanceClass":{
                     "default":"Instance Class for DMS"
+                },
+                "CreateDMSRoles":{
+                    "default":"Conditional IAM roles creation for DMS"
                 },
                 "S3BucketName":{
                     "default":"S3 Bucket Name"
@@ -190,6 +194,15 @@
             "ConstraintDescription":"Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge",
             "Default":"dms.t2.micro"
         },
+        "CreateDMSRoles":{
+            "Description":"Specify True to create the IAM roles (dms-vpc-role and dms-cloudwatch-logs-role) required for DMS, if non-existent in your AWS account. Else, specify False.",
+            "Type":"String",
+            "AllowedValues":[
+                "True",
+                "False"
+            ],
+            "ConstraintDescription":"Valid Values: True | False"
+        },
         "AthenaDBname":{
             "Description":"Database name for the Athena NamedQuery.",
             "Type":"String",
@@ -244,6 +257,24 @@
             "Description":"The name of the sagemaker model that you want to host.",
             "Type":"String",
             "Default":""
+        }
+    },
+    "Conditions":{
+        "CreateDMSRoles":{
+            "Fn::Equals":[
+                {
+                    "Ref":"CreateDMSRoles"
+                },
+                "True"
+            ]
+        },
+        "SkipCreateDMSRoles":{
+            "Fn::Equals":[
+                {
+                    "Ref":"CreateDMSRoles"
+                },
+                "False"
+            ]
         }
     },
     "Mappings":{
@@ -305,6 +336,15 @@
         }
     },
     "Resources":{
+        "DMSRolesStack":{
+            "Condition":"CreateDMSRoles",
+            "Type":"AWS::CloudFormation::Stack",
+            "Properties":{
+                "TemplateURL":{
+                    "Fn::Sub":"https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/el-dorado-create-dms-roles.template"
+                }
+            }
+        },
         "S3bucket":{
             "Type":"AWS::S3::Bucket",
             "Properties":{
@@ -837,7 +877,36 @@
                 }
             }
         },
-        "BasicReplicationInstance":{
+        "BasicReplicationInstance1":{
+            "Condition":"CreateDMSRoles",
+            "DependsOn":"DMSRolesStack",
+            "Type":"AWS::DMS::ReplicationInstance",
+            "Properties":{
+                "PubliclyAccessible":false,
+                "ReplicationInstanceClass":{
+                    "Ref":"DmsInstanceClass"
+                },
+                "ReplicationInstanceIdentifier":{
+                    "Ref":"S3BucketName"
+                },
+                "Tags":[
+                    {
+                        "Key":"Project",
+                        "Value":{
+                            "Ref":"ProjectTag"
+                        }
+                    },
+                    {
+                        "Key":"Env",
+                        "Value":{
+                            "Ref":"EnvTag"
+                        }
+                    }
+                ]
+            }
+        },
+        "BasicReplicationInstance2":{
+            "Condition":"SkipCreateDMSRoles",
             "Type":"AWS::DMS::ReplicationInstance",
             "Properties":{
                 "PubliclyAccessible":false,
@@ -1093,12 +1162,6 @@
                 ]
             },
             "Description":"Amazon Resource Name (ARN) of the specified bucket."
-        },
-        "DMSInstanceARN":{
-            "Description":"Amazon Resource Name (ARN) of the DMS ReplicationInstance.",
-            "Value":{
-                "Ref":"BasicReplicationInstance"
-            }
         },
         "SagemakerEndpointConfigARN":{
             "Value":{

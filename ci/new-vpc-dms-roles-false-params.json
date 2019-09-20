@@ -79,6 +79,10 @@
         "ParameterKey": "DmsInstanceClass",
         "ParameterValue": "dms.t2.micro"
     },
+	{
+        "ParameterKey": "CreateDMSRoles",
+        "ParameterValue": "False"
+    },
     {
         "ParameterKey": "S3BucketName",
         "ParameterValue": "$[taskcat_random-string]"
