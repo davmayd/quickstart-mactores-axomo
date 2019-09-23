@@ -10,13 +10,13 @@ global:
   reporting: true
 
 tests:
-  new-vpc-dms-roles-true:
-    parameter_input: new-vpc-dms-roles-true-params.json
+#  new-vpc-dms-roles-true:
+#    parameter_input: new-vpc-dms-roles-true-params.json
+#    template_file: el-dorado-master-new-vpc.template
+#    regions:
+#      - us-east-1
+  new-vpc-dms-roles-false:
+    parameter_input: new-vpc-dms-roles-false-params.json
     template_file: el-dorado-master-new-vpc.template
     regions:
-      - us-east-1
-#  new-vpc-dms-roles-false:
-#    parameter_input: new-vpc-dms-roles-false-params.json
-#    template_file: el-dorado-master-new-vpc.template
-#   regions:
-#      - us-east-1
+      - us-west-2

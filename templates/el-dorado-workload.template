@@ -722,11 +722,12 @@
             }
         },
         "Lambda":{
+            "DependsOn":"CopyS3objectsOnCreate",
             "Type":"AWS::Lambda::Function",
             "Properties":{
                 "Code":{
                     "S3Bucket":{
-                        "Ref":"QSS3BucketName"
+                        "Ref":"S3bucket"
                     },
                     "S3Key":{
                         "Fn::Join":[
@@ -818,11 +819,12 @@
             }
         },
         "LambdaEmptyBucket":{
+            "DependsOn":"CopyS3objectsOnCreate",
             "Type":"AWS::Lambda::Function",
             "Properties":{
                 "Code":{
                     "S3Bucket":{
-                        "Ref":"QSS3BucketName"
+                        "Ref":"S3bucket"
                     },
                     "S3Key":{
                         "Fn::Join":[
@@ -875,6 +877,114 @@
                 "BucketName":{
                     "Ref":"S3bucket"
                 }
+            }
+        },
+        "LambdaCopyArtifacts":{
+            "Type":"AWS::Lambda::Function",
+            "Properties":{
+                "Code":{
+                    "ZipFile":{
+                        "Fn::Join":[
+                            "",
+                            [
+                                "import json\n",
+                                "import logging\n",
+                                "import threading\n",
+                                "import boto3\n",
+                                "import cfnresponse\n",
+                                "def copy_objects(source_bucket, dest_bucket, prefix, objects):\n",
+                                "  s3 = boto3.client('s3')\n",
+                                "  for o in objects:\n",
+                                "    key = prefix + o\n",
+                                "    copy_source = {\n",
+                                "      'Bucket': source_bucket,\n",
+                                "      'Key': key\n",
+                                "    }\n",
+                                "    print('copy_source: %s' % copy_source)\n",
+                                "    print('dest_bucket = %s'%dest_bucket)\n",
+                                "    print('key = %s' %key)\n",
+                                "    s3.copy_object(CopySource=copy_source, Bucket=dest_bucket, Key=key)\n",
+                                "def delete_objects(bucket, prefix, objects):\n",
+                                "  s3 = boto3.client('s3')\n",
+                                "  objects = {'Objects': [{'Key': prefix + o} for o in objects]}\n",
+                                "  s3.delete_objects(Bucket=bucket, Delete=objects)\n",
+                                "def timeout(event, context):\n",
+                                "  logging.error('Execution is about to time out, sending failure response to CloudFormation')\n",
+                                "  cfnresponse.send(event, context, cfnresponse.FAILED, {}, None)\n",
+                                "def handler(event, context):\n",
+                                "  timer = threading.Timer((context.get_remaining_time_in_millis() / 1000.00) - 0.5, timeout, args=[event, context])\n",
+                                "  timer.start()\n",
+                                "  print('Received event: %s' % json.dumps(event))\n",
+                                "  status = cfnresponse.SUCCESS\n",
+                                "  try:\n",
+                                "    source_bucket = event['ResourceProperties']['SourceBucket']\n",
+                                "    dest_bucket = event['ResourceProperties']['DestBucket']\n",
+                                "    prefix = event['ResourceProperties']['Prefix']\n",
+                                "    objects = event['ResourceProperties']['Objects']\n",
+                                "    if event['RequestType'] == 'Delete':\n",
+                                "      delete_objects(dest_bucket, prefix, objects)\n",
+                                "    else:\n",
+                                "      copy_objects(source_bucket, dest_bucket, prefix, objects)\n",
+                                "  except Exception as e:\n",
+                                "    logging.error('Exception: %s' % e, exc_info=True)\n",
+                                "    status = cfnresponse.FAILED\n",
+                                "  finally:\n",
+                                "    timer.cancel()\n",
+                                "    cfnresponse.send(event, context, status, {}, None)\n"
+                            ]
+                        ]
+                    }
+                },
+                "Description":"Lambda function to copy artifacts from main bucket to new region s3 bucket",
+                "FunctionName":"el-dorado-lambda-3",
+                "Handler":"index.handler",
+                "Role":{
+                    "Fn::GetAtt":[
+                        "LambdaExecutionRole",
+                        "Arn"
+                    ]
+                },
+                "Runtime":"python3.7",
+                "Tags":[
+                    {
+                        "Key":"Project",
+                        "Value":{
+                            "Ref":"ProjectTag"
+                        }
+                    },
+                    {
+                        "Key":"Env",
+                        "Value":{
+                            "Ref":"EnvTag"
+                        }
+                    }
+                ],
+                "Timeout":60
+            }
+        },
+        "CopyS3objectsOnCreate":{
+            "Type":"Custom::copys3objects",
+            "Properties":{
+                "ServiceToken":{
+                    "Fn::GetAtt":[
+                        "LambdaCopyArtifacts",
+                        "Arn"
+                    ]
+                },
+                "DestBucket":{
+                    "Ref":"S3bucket"
+                },
+                "SourceBucket":{
+                    "Ref":"QSS3BucketName"
+                },
+                "Prefix":{
+                    "Ref":"QSS3KeyPrefix"
+                },
+                "Objects":[
+                    "scripts/model-ll.tar.gz",
+                    "functions/packages/invokesagemaker/function.zip",
+                    "functions/packages/emptys3bucket/function.zip"
+                ]
             }
         },
         "BasicReplicationInstance1":{
@@ -1027,6 +1137,7 @@
             }
         },
         "SagemakerModel":{
+            "DependsOn":"CopyS3objectsOnCreate",
             "Type":"AWS::SageMaker::Model",
             "Properties":{
                 "ExecutionRoleArn":{
@@ -1054,7 +1165,7 @@
                             [
                                 "s3://",
                                 {
-                                    "Ref":"QSS3BucketName"
+                                    "Ref":"S3bucket"
                                 },
                                 "/",
                                 {
