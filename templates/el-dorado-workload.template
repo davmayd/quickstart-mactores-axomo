@@ -69,7 +69,7 @@
                 },
                 {
                     "Label":{
-                        "default":"components tagging"
+                        "default":"Components tag details"
                     },
                     "Parameters":[
                         "ProjectTag",
