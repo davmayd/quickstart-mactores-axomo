@@ -1,0 +1,106 @@
+[
+    {
+        "ParameterKey": "AvailabilityZones",
+        "ParameterValue": "$[taskcat_genaz_2]"
+    },
+	{
+        "ParameterKey": "CreatePrivateSubnets",
+        "ParameterValue": "true"
+    },
+	{
+        "ParameterKey": "NumberOfAZs",
+        "ParameterValue": "2"
+    },
+	{
+        "ParameterKey": "PrivateSubnet1ACIDR",
+        "ParameterValue": "10.0.0.0/19"
+    },
+	{
+        "ParameterKey": "PrivateSubnet2ACIDR",
+        "ParameterValue": "10.0.32.0/19"
+    },
+	{
+        "ParameterKey": "PrivateSubnetATag1",
+        "ParameterValue": "Network=Private"
+    },
+	{
+        "ParameterKey": "PrivateSubnetATag2",
+        "ParameterValue": ""
+    },
+	{
+        "ParameterKey": "PrivateSubnetATag3",
+        "ParameterValue": ""
+    },
+	{
+        "ParameterKey": "PublicSubnet1CIDR",
+        "ParameterValue": "10.0.128.0/20"
+    },
+	{
+        "ParameterKey": "PublicSubnet2CIDR",
+        "ParameterValue": "10.0.144.0/20"
+    },
+	{
+        "ParameterKey": "PublicSubnetTag1",
+        "ParameterValue": "Network=Public"
+    },
+	{
+        "ParameterKey": "PublicSubnetTag2",
+        "ParameterValue": ""
+    },
+	{
+        "ParameterKey": "PublicSubnetTag3",
+        "ParameterValue": ""
+    },
+	{
+        "ParameterKey": "VPCCIDR",
+        "ParameterValue": "10.0.0.0/16"
+    },
+	{
+        "ParameterKey": "VPCTenancy",
+        "ParameterValue": "default"
+    },
+	{
+        "ParameterKey": "QSS3BucketName",
+        "ParameterValue": "$[taskcat_autobucket]"
+    },
+	{
+        "ParameterKey":"QSS3KeyPrefix",
+        "ParameterValue":"quickstart-mactores-eldorado/"
+    },
+    {
+        "ParameterKey": "CrawlerDBname",
+        "ParameterValue": "el-db-crawler"
+    },
+    {
+        "ParameterKey": "AthenaDBname",
+        "ParameterValue": "el-db"
+    },
+    {
+        "ParameterKey": "DmsInstanceClass",
+        "ParameterValue": "dms.t2.micro"
+    },
+	{
+        "ParameterKey": "CreateDMSRoles",
+        "ParameterValue": "False"
+    },
+    {
+        "ParameterKey": "S3BucketName",
+        "ParameterValue": "$[taskcat_random-string]"
+    },
+    {
+        "ParameterKey": "ProjectTag",
+        "ParameterValue": "El-Dorado"
+    },
+    {
+        "ParameterKey": "EnvTag",
+        "ParameterValue": "Dev"
+    },
+    {
+        "ParameterKey": "SagemakerEndpointConfigInstanceType",
+        "ParameterValue": "ml.m4.xlarge"
+    },
+    {
+        "ParameterKey":"SagemakerModelName",
+        "ParameterValue":"el-dorado-model"
+    }
+]
