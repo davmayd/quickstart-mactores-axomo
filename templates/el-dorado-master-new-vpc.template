@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion":"2010-09-09",
-    "Description":"This CloudFormation template creates a new VPC in your AWS account and deploys the EL-DORADO infrastructure in the new VPC. Authored by Mactores.",
+    "Description":"This CloudFormation template creates a new VPC in your AWS account and deploys the EL-DORADO infrastructure in the new VPC. Authored by Mactores. (qs-1q18ntcti)",
     "Metadata":{
         "AWS::CloudFormation::Interface":{
             "ParameterGroups":[
