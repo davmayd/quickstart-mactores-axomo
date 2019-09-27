@@ -5,7 +5,7 @@ This Quick Start is for users who manage IBM LSF Clusters and want to optimize a
 
 Axomo solves the industry wide problem for companies using a large portion of their budget on licenses and hardware from inefficient resource allocation, and opportunity cost from loss of productivity. The user of the Axomo solution will experience advance analytics outcomes with a comprehensive pre-built dashboard which provides insights for licensing, job type-based views, identifies underutilized hardware and misconfiguration and provides the Intelligent queueing for job assignment to optimize cluster and license utilization
 
-![Quick Start architecture for Axomo on AWS](assets/Axomo on AWS Cloud-Architecture.jpg)
+![Quick Start architecture for Axomo on AWS](https://raw.githubusercontent.com/aws-quickstart/quickstart-mactores-eldorado/develop/assets/Axomo-on-AWS-Cloud-Architecture.jpg)
 
 The AWS CloudFormation templates included with the Quick Start automate the following:
 
