@@ -1,12 +1,12 @@
 {
     "AWSTemplateFormatVersion":"2010-09-09",
-    "Description":"This CloudFormation template creates a new VPC in your AWS account and deploys the EL-DORADO infrastructure in the new VPC. Authored by Mactores. (qs-1q18ntcti)",
+    "Description":"This CloudFormation template creates a new VPC in your AWS account and deploys the Axomo infrastructure in the new VPC. Authored by Mactores.",
     "Metadata":{
         "AWS::CloudFormation::Interface":{
             "ParameterGroups":[
                 {
                     "Label":{
-                        "default":"Availability Zone Configuration"
+                        "default":"Availability Zone configuration"
                     },
                     "Parameters":[
                         "AvailabilityZones",
@@ -35,16 +35,7 @@
                 },
                 {
                     "Label":{
-                        "default":"AWS Quick Start configuration"
-                    },
-                    "Parameters":[
-                        "QSS3BucketName",
-                        "QSS3KeyPrefix"
-                    ]
-                },
-                {
-                    "Label":{
-                        "default":"Sagemaker configuration"
+                        "default":"Amazon SageMaker configuration"
                     },
                     "Parameters":[
                         "SagemakerEndpointConfigInstanceType",
@@ -53,7 +44,7 @@
                 },
                 {
                     "Label":{
-                        "default":"Glue configuration"
+                        "default":"AWS Glue configuration"
                     },
                     "Parameters":[
                         "CrawlerDBname"
@@ -61,7 +52,7 @@
                 },
                 {
                     "Label":{
-                        "default":"Athena configuration"
+                        "default":"Amazon Athena configuration"
                     },
                     "Parameters":[
                         "AthenaDBname"
@@ -78,7 +69,7 @@
                 },
                 {
                     "Label":{
-                        "default":"S3 configuration"
+                        "default":"Amazon S3 configuration"
                     },
                     "Parameters":[
                         "S3BucketName"
@@ -91,6 +82,15 @@
                     "Parameters":[
                         "ProjectTag",
                         "EnvTag"
+                    ]
+                },
+                {
+                    "Label":{
+                        "default":"AWS Quick Start configuration"
+                    },
+                    "Parameters":[
+                        "QSS3BucketName",
+                        "QSS3KeyPrefix"
                     ]
                 }
             ],
@@ -153,13 +153,13 @@
                     "default":"Athena DB name"
                 },
                 "DmsInstanceClass":{
-                    "default":"Instance Class for DMS"
+                    "default":"Instance class for DMS"
                 },
                 "CreateDMSRoles":{
                     "default":"Conditional IAM roles creation for DMS"
                 },
                 "S3BucketName":{
-                    "default":"S3 Bucket Name"
+                    "default":"S3 bucket name"
                 },
                 "ProjectTag":{
                     "default":"Value for Project Tag"
@@ -168,10 +168,10 @@
                     "default":"Value for Environment Tag"
                 },
                 "SagemakerEndpointConfigInstanceType":{
-                    "default":"Instance Type for Sagemaker EndpointConfig"
+                    "default":"Instance type for SageMaker EndpointConfig"
                 },
                 "SagemakerModelName":{
-                    "default":"Model Name for Sagemaker"
+                    "default":"Model name for SageMaker"
                 }
             }
         }
@@ -285,17 +285,18 @@
             "Type":"String"
         },
         "QSS3BucketName":{
-            "Description":"S3 bucket name for the Quick Start assets. This string can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).",
+            "Description":"The S3 bucket you created for your copy of Quick Start assets, if you decide to customize or extend the Quick Start for your own use. The bucket name can include numbers, lowercase letters, uppercase letters, and hyphens, but should not start or end with a hyphen.",
             "Type":"String",
             "AllowedPattern":"^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$",
-            "ConstraintDescription":"Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
+            "ConstraintDescription":"Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).",
+            "Default":"aws-quickstart"
         },
         "QSS3KeyPrefix":{
-            "Description":"S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
+            "Description":"The S3 key name prefix used to simulate a folder for your copy of Quick Start assets, if you decide to customize or extend the Quick Start for your own use. This prefix can include numbers, lowercase letters, uppercase letters, hyphens, and forward slashes.",
             "Type":"String",
             "AllowedPattern":"^[0-9a-zA-Z-/]*$",
             "ConstraintDescription":"Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
-            "Default":"quickstart-mactores-eldorado/"
+            "Default":"quickstart-mactores-axomo/"
         },
         "S3BucketName":{
             "Description":"S3 bucket name for the target location for Glue crawlers. Bucket name must contain only lowercase letters, numbers, periods and dashes.",
@@ -305,7 +306,7 @@
         "ProjectTag":{
             "Description":"Value for the Project tag to be associated with all the deployed components. Tags make it easier to manage, search for, and filter resources for Billing and tracking purposes.",
             "Type":"String",
-            "Default":"El-Dorado"
+            "Default":"Axomo"
         },
         "EnvTag":{
             "Description":"Value for the Environment tag to be associated with all the deployed components. Tags make it easier to manage, search for, and filter resources for Billing and tracking purposes. Can be Dev, Prd or any custom value",
@@ -459,7 +460,7 @@
             "Type":"AWS::CloudFormation::Stack",
             "Properties":{
                 "TemplateURL":{
-                    "Fn::Sub":"https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/el-dorado-workload.template"
+                    "Fn::Sub":"https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/axomo-workload.template"
                 },
                 "Parameters":{
                     "QSS3BucketName":{
