@@ -65,7 +65,7 @@
     },
 	{
         "ParameterKey":"QSS3KeyPrefix",
-        "ParameterValue":"quickstart-mactores-eldorado/"
+        "ParameterValue":"quickstart-mactores-axomo/"
     },
     {
         "ParameterKey": "CrawlerDBname",
@@ -89,7 +89,7 @@
     },
     {
         "ParameterKey": "ProjectTag",
-        "ParameterValue": "El-Dorado"
+        "ParameterValue": "Axomo"
     },
     {
         "ParameterKey": "EnvTag",
@@ -101,6 +101,6 @@
     },
     {
         "ParameterKey":"SagemakerModelName",
-        "ParameterValue":"el-dorado-model"
+        "ParameterValue":"axomo-model"
     }
 ]

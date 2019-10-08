@@ -1,7 +1,7 @@
 global:
   marketplace-ami: false
   owner: quickstart-eng@amazon.com
-  qsname: quickstart-mactores-eldorado
+  qsname: quickstart-mactores-axomo
   regions:
     - us-west-2
     - us-east-1
@@ -10,13 +10,14 @@ global:
   reporting: true
 
 tests:
-  new-vpc-dms-roles-true:
-   parameter_input: new-vpc-dms-roles-true-params.json
-   template_file: el-dorado-master-new-vpc.template
-   regions:
-     - us-east-1
-  # new-vpc-dms-roles-false:
-  #   parameter_input: new-vpc-dms-roles-false-params.json
-  #   template_file: el-dorado-master-new-vpc.template
-  #   regions:
-  #     - us-west-2
+#  new-vpc-dms-roles-true:
+#    parameter_input: new-vpc-dms-roles-true-params.json
+#    template_file: axomo-master-new-vpc.template
+#    regions:
+#      - us-east-1
+  new-vpc-dms-roles-false:
+    parameter_input: new-vpc-dms-roles-false-params.json
+    template_file: axomo-master-new-vpc.template
+    regions:
+      - us-west-2
+      - us-east-1
