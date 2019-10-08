@@ -111,13 +111,13 @@
                     "default":"Private subnet 2A CIDR"
                 },
                 "PrivateSubnetATag1":{
-                    "default":"Tag for Private A Subnets"
+                    "default":"Tag for private A subnets"
                 },
                 "PrivateSubnetATag2":{
-                    "default":"Tag for Private A Subnets"
+                    "default":"Tag for private A subnets"
                 },
                 "PrivateSubnetATag3":{
-                    "default":"Tag for Private A Subnets"
+                    "default":"Tag for private A subnets"
                 },
                 "PublicSubnet1CIDR":{
                     "default":"Public subnet 1 CIDR"
@@ -126,19 +126,19 @@
                     "default":"Public subnet 2 CIDR"
                 },
                 "PublicSubnetTag1":{
-                    "default":"Tag for Public Subnets"
+                    "default":"Tag for public subnets"
                 },
                 "PublicSubnetTag2":{
-                    "default":"Tag for Public Subnets"
+                    "default":"Tag for public sbnets"
                 },
                 "PublicSubnetTag3":{
-                    "default":"Tag for Public Subnets"
+                    "default":"Tag for public subnets"
                 },
                 "VPCCIDR":{
                     "default":"VPC CIDR"
                 },
                 "VPCTenancy":{
-                    "default":"VPC Tenancy"
+                    "default":"VPC tenancy"
                 },
                 "QSS3BucketName":{
                     "default":"Quick Start S3 bucket name"
@@ -162,10 +162,10 @@
                     "default":"S3 bucket name"
                 },
                 "ProjectTag":{
-                    "default":"Value for Project Tag"
+                    "default":"Value for project tag"
                 },
                 "EnvTag":{
-                    "default":"Value for Environment Tag"
+                    "default":"Value for environment tag"
                 },
                 "SagemakerEndpointConfigInstanceType":{
                     "default":"Instance type for SageMaker EndpointConfig"
@@ -214,23 +214,23 @@
         },
         "PrivateSubnetATag1":{
             "AllowedPattern":"^([a-zA-Z0-9+\\-._:/@]+=[a-zA-Z0-9+\\-.,_:/@ *\\\\\"'\\[\\]\\{\\}]*)?$",
-            "ConstraintDescription":"tags must be in format \"Key=Value\" keys can only contain [a-zA-Z0-9+\\-._:/@], values can contain [a-zA-Z0-9+\\-._:/@ *\\\\\"'\\[\\]\\{\\}]",
+            "ConstraintDescription":"The tags must be in format \"Key=Value\" keys can only contain [a-zA-Z0-9+\\-._:/@], values can contain [a-zA-Z0-9+\\-._:/@ *\\\\\"'\\[\\]\\{\\}]",
             "Default":"Network=Private",
-            "Description":"tag to add to private subnets A, in format Key=Value (Optional)",
+            "Description":"The tag to add to private subnets A, in format Key=Value (Optional)",
             "Type":"String"
         },
         "PrivateSubnetATag2":{
             "AllowedPattern":"^([a-zA-Z0-9+\\-._:/@]+=[a-zA-Z0-9+\\-.,_:/@ *\\\\\"'\\[\\]\\{\\}]*)?$",
-            "ConstraintDescription":"tags must be in format \"Key=Value\" keys can only contain [a-zA-Z0-9+\\-._:/@], values can contain [a-zA-Z0-9+\\-._:/@ *\\\\\"'\\[\\]\\{\\}]",
+            "ConstraintDescription":"The tags must be in format \"Key=Value\" keys can only contain [a-zA-Z0-9+\\-._:/@], values can contain [a-zA-Z0-9+\\-._:/@ *\\\\\"'\\[\\]\\{\\}]",
             "Default":"",
-            "Description":"tag to add to private subnets A, in format Key=Value (Optional)",
+            "Description":"The tag to add to private subnets A, in format Key=Value (Optional)",
             "Type":"String"
         },
         "PrivateSubnetATag3":{
             "AllowedPattern":"^([a-zA-Z0-9+\\-._:/@]+=[a-zA-Z0-9+\\-.,_:/@ *\\\\\"'\\[\\]\\{\\}]*)?$",
-            "ConstraintDescription":"tags must be in format \"Key=Value\" keys can only contain [a-zA-Z0-9+\\-._:/@], values can contain [a-zA-Z0-9+\\-._:/@ *\\\\\"'\\[\\]\\{\\}]",
+            "ConstraintDescription":"The tags must be in format \"Key=Value\" keys can only contain [a-zA-Z0-9+\\-._:/@], values can contain [a-zA-Z0-9+\\-._:/@ *\\\\\"'\\[\\]\\{\\}]",
             "Default":"",
-            "Description":"tag to add to private subnets A, in format Key=Value (Optional)",
+            "Description":"The tag to add to private subnets A, in format Key=Value (Optional)",
             "Type":"String"
         },
         "PublicSubnet1CIDR":{
@@ -249,23 +249,23 @@
         },
         "PublicSubnetTag1":{
             "AllowedPattern":"^([a-zA-Z0-9+\\-._:/@]+=[a-zA-Z0-9+\\-.,_:/@ *\\\\\"'\\[\\]\\{\\}]*)?$",
-            "ConstraintDescription":"tags must be in format \"Key=Value\" keys can only contain [a-zA-Z0-9+\\-._:/@], values can contain [a-zA-Z0-9+\\-._:/@ *\\\\\"'\\[\\]\\{\\}]",
+            "ConstraintDescription":"Tags must be in format \"Key=Value\" keys can only contain [a-zA-Z0-9+\\-._:/@], values can contain [a-zA-Z0-9+\\-._:/@ *\\\\\"'\\[\\]\\{\\}]",
             "Default":"Network=Public",
-            "Description":"tag to add to public subnets, in format Key=Value (Optional)",
+            "Description":"Tag to add to public subnets, in format Key=Value (Optional)",
             "Type":"String"
         },
         "PublicSubnetTag2":{
             "AllowedPattern":"^([a-zA-Z0-9+\\-._:/@]+=[a-zA-Z0-9+\\-.,_:/@ *\\\\\"'\\[\\]\\{\\}]*)?$",
-            "ConstraintDescription":"tags must be in format \"Key=Value\" keys can only contain [a-zA-Z0-9+\\-._:/@], values can contain [a-zA-Z0-9+\\-._:/@ *\\\\\"'\\[\\]\\{\\}]",
+            "ConstraintDescription":"Tags must be in format \"Key=Value\" keys can only contain [a-zA-Z0-9+\\-._:/@], values can contain [a-zA-Z0-9+\\-._:/@ *\\\\\"'\\[\\]\\{\\}]",
             "Default":"",
-            "Description":"tag to add to public subnets, in format Key=Value (Optional)",
+            "Description":"Tag to add to public subnets, in format Key=Value (Optional)",
             "Type":"String"
         },
         "PublicSubnetTag3":{
             "AllowedPattern":"^([a-zA-Z0-9+\\-._:/@]+=[a-zA-Z0-9+\\-.,_:/@ *\\\\\"'\\[\\]\\{\\}]*)?$",
-            "ConstraintDescription":"tags must be in format \"Key=Value\" keys can only contain [a-zA-Z0-9+\\-._:/@], values can contain [a-zA-Z0-9+\\-._:/@ *\\\\\"'\\[\\]\\{\\}]",
+            "ConstraintDescription":"Tags must be in format \"Key=Value\" keys can only contain [a-zA-Z0-9+\\-._:/@], values can contain [a-zA-Z0-9+\\-._:/@ *\\\\\"'\\[\\]\\{\\}]",
             "Default":"",
-            "Description":"tag to add to public subnets, in format Key=Value (Optional)",
+            "Description":"Tag to add to public subnets, in format Key=Value (Optional)",
             "Type":"String"
         },
         "VPCCIDR":{
@@ -389,7 +389,7 @@
             "Default":"ml.m4.xlarge"
         },
         "SagemakerModelName":{
-            "Description":"The name of the sagemaker model that you want to host.",
+            "Description":"The name of the Amazon Sagemaker model that you want to host.",
             "Type":"String",
             "Default":""
         }

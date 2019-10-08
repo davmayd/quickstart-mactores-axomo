@@ -115,10 +115,10 @@
                     "default":"S3 bucket name"
                 },
                 "ProjectTag":{
-                    "default":"Value for Project Tag"
+                    "default":"Value for project tag"
                 },
                 "EnvTag":{
-                    "default":"Value for Environment Tag"
+                    "default":"Value for environment tag"
                 },
                 "SagemakerEndpointConfigInstanceType":{
                     "default":"Instance type for SageMaker EndpointConfig"
@@ -255,7 +255,7 @@
             "Default":"ml.m4.xlarge"
         },
         "SagemakerModelName":{
-            "Description":"The name of the sagemaker model that you want to host.",
+            "Description":"The name of the Amazon Sagemaker model that you want to host.",
             "Type":"String",
             "Default":""
         }
