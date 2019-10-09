@@ -1,14 +1,28 @@
-# quickstart-mactores-eldorado
+# quickstart-mactores-axomo
 ## Axomo on the AWS Cloud
 
-This Quick Start is for users who manage IBM LSF Clusters and want to optimize and predict the cluster resources and license consumption of jobs on LSF Cluster.
+This Quick Start automatically deploys Axomo on the Amazon Web Services (AWS) Cloud in about 25 minutes. It’s intended for users who manage IBM Spectrum LSF RTM, which is an operational dashboard for IBM Spectrum LSF environments that monitors, reports on, and manages load sharing facility (LSF) workloads.
 
-Axomo solves the industry wide problem for companies using a large portion of their budget on licenses and hardware from inefficient resource allocation, and opportunity cost from loss of productivity. The user of the Axomo solution will experience advance analytics outcomes with a comprehensive pre-built dashboard which provides insights for licensing, job type-based views, identifies underutilized hardware and misconfiguration and provides the Intelligent queueing for job assignment to optimize cluster and license utilization
+Axomo on AWS is available as a cost-effective, secure, AWS serverless architecture that includes AWS Glue, Amazon Simple Storage Service (Amazon S3), Amazon SageMaker, and Amazon Athena.
 
-![Quick Start architecture for Axomo on AWS](https://raw.githubusercontent.com/aws-quickstart/quickstart-mactores-eldorado/develop/assets/Axomo-on-AWS-Cloud-Architecture.jpg)
+Axomo addresses an industry-wide problem for companies that spend much of their budget on licenses and hardware from inefficient resource allocation, and that have an opportunity cost from loss of productivity. 
 
-The AWS CloudFormation templates included with the Quick Start automate the following:
+Via a pre-built dashboard, you can use Axomo on AWS to:
 
-- [Deploying Axomo into a new VPC](https://us-west-2.console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/new?stackName=Axomo&templateURL=https://aws-quickstart.s3.amazonaws.com/quickstart-mactores-eldorado/templates/el-dorado-master-new-vpc.template)
-- [Deploying Axomo into your existing AWS](https://us-west-2.console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/new?stackName=Axomo&templateURL=https://aws-quickstart.s3.amazonaws.com/quickstart-mactores-eldorado/templates/el-dorado-workload.template)
+- Optimize, predict, and obtain insights on cluster resources and license consumption of jobs on LSF clusters.
+- Identify underused hardware and misconfigurations.
+- Scale compute and storage.
+- Right-size resources used, such as the ratio of central processing units (CPUs) to random access memory (RAM).
 
+This reference architecture is automated by AWS CloudFormation templates that you can customize to meet your specific requirements. The AWS CloudFormation templates included with the Quick Start automate the following:
+
+- Deploying Axomo into a new virtual private cloud (VPC)
+- Deploying Axomo into an existing VPC in your AWS account
+
+![Quick Start architecture for Axomo on AWS](https://d1.awsstatic.com/partner-network/QuickStart/datasheets/axomo-arch-on-aws.cb0907a9e1e8085f4ebec7b04e0bda8c889159f9.png)
+
+For architectural details, best practices, step-by-step instructions, and customization options, see the [deployment guide](https://fwd.aws/jYdVj).
+
+To post feedback, submit feature ideas, or report bugs, use the **Issues** section of this GitHub repo.
+
+If you'd like to submit code for this Quick Start, please review the [AWS Quick Start Contributor's Guide](https://aws-quickstart.github.io/). 
