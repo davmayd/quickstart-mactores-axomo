@@ -19,7 +19,7 @@ This reference architecture is automated by AWS CloudFormation templates that yo
 - Deploying Axomo into a new virtual private cloud (VPC)
 - Deploying Axomo into an existing VPC in your AWS account
 
-![Quick Start architecture for Axomo on AWS](https://d1.awsstatic.com/partner-network/QuickStart/datasheets/axomo-arch-on-aws.cb0907a9e1e8085f4ebec7b04e0bda8c889159f9.png)
+![Quick Start architecture for Axomo on AWS](https://d1.awsstatic.com/partner-network/QuickStart/datasheets/axomo-architecture-on-aws.34ff2449b4202bfbbfb66fe33e9e072a098ef2a3.png)
 
 For architectural details, best practices, step-by-step instructions, and customization options, see the [deployment guide](https://fwd.aws/jYdVj).
 
