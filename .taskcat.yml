@@ -1,0 +1,47 @@
+project:
+  name: quickstart-mactores-axomo
+  owner: quickstart@amazon.com
+  package_lambda: false
+  regions:
+  - us-west-2
+  - us-east-1
+  - us-east-2
+  - eu-west-1
+  s3_bucket: ''
+tests:
+  new-vpc-dms-roles-true:
+    parameters:
+      AvailabilityZones: $[taskcat_getaz_2]
+      KeyPairName: cikey
+      NGINXPlusInstanceType: t3.small
+      QSS3BucketName: $[taskcat_autobucket]
+      QSS3BucketRegion: $[taskcat_current_region]
+      QSS3KeyPrefix: quickstart-mactores-axomo/
+      RemoteAccessCIDR: 10.0.0.0/16
+      CreatePrivateSubnets: 'true'
+      NumberOfAZs: 2
+      PrivateSubnet1ACIDR: 10.0.0.0/19
+      PrivateSubnet2ACIDR: 10.0.32.0/19
+      PrivateSubnetATag1: Network=Private
+      PrivateSubnetATag2: ""
+      PrivateSubnetATag3: ""
+      PublicSubnet1CIDR: 10.0.128.0/20
+      PublicSubnet2CIDR: 10.0.144.0/20
+      PublicSubnetTag1: "Network=Public"
+      PublicSubnetTag2: ""
+      PublicSubnetTag3: ""
+      VPCCIDR: 10.0.0.0/16
+      VPCTenancy: default
+      CrawlerDBname: el-db-crawler
+      AthenaDBname: el-db
+      DmsInstanceClass: dms.t2.micro
+      CreateDMSRoles: "True"
+      S3BucketName: $[taskcat_random-string]
+      ProjectTag: Axomo
+      EnvTag: Dev
+      SagemakerEndpointConfigInstanceType: ml.m4.xlarge
+      SagemakerModelName: axomo-model
+    regions:
+    - us-east-1
+    s3_bucket: ''
+    template: templates/axomo-master-new-vpc.template.yaml
