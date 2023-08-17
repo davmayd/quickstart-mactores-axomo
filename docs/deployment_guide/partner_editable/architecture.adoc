@@ -1,0 +1,32 @@
+:xrefstyle: short
+
+Deploying this Partner Solution with default parameters builds the following {partner-product-short-name} environment in the
+AWS Cloud.
+
+// Replace this example diagram with your own. Follow our wiki guidelines: https://w.amazon.com/bin/view/AWS_Quick_Starts/Process_for_PSAs/#HPrepareyourarchitecturediagram. Upload your source PowerPoint file to the GitHub {deployment name}/docs/images/ directory in its repository.
+
+[#architecture1]
+.Partner Solution architecture for {partner-product-short-name} on AWS
+image::../docs/deployment_guide/images/image2.jpeg[Architecture]
+
+As shown in <<architecture1>>, this Partner Solution sets up the following:
+
+* A new VPC, private subnet, and security groups. *
+* A structured data lake in Amazon S3 to hold the raw, modeled, enhanced, and transformed data.
+* A staging bucket for the feature-engineered and transformed data that will be ingested into Amazon SageMaker for machine learning (ML).
+* Data transformation code hosted on AWS Lambda to prepare raw data for consumption and ML model training, and to transform data input and output.
+* Amazon SageMaker automation through Lambda functions to build, manage, and create REST endpoints for new models, based on a schedule or triggered by data changes in the data lake. Amazon SageMaker uses Amazon Athena for training ML models and for predictions such as resource forecasting.
+* AWS Identity and Access Management (IAM) to enforce the principle of least privilege on each processing component. The IAM role and policy restrict access to only the resources that are necessary.
+* AWS Data Migration Service (AWS DMS) that reads from an on-premises IBM Spectrum LSF RTM MySQL database to migrate the IBM Spectrum LSF RTM data to Amazon S3 over a secured virtual private network (VPN).
+* An S3copy command that is used on IBM Spectrum LSF and Telegraf log files to transfer them over secured VPN to Amazon S3.
+
+[.small]#* The template that deploys this Partner Solution into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.#
+
+=== Overall process
+
+* Axomo uses AWS services in the following end-to-end process:
+* IBM Spectrum LSF users connect with the IBM Spectrum LSF RTM database, LSF logs, and Telegraf database through a secured Site-to-Site VPN to the VPC via the Axomo portal.
+* Once connected, Axomo runs predefined queries and AWS Glue jobs to clean the data and keep it in Amazon S3.
+* Amazon Athena processes this data via a Lambda function.
+* Amazon SageMaker uses Amazon Athena to train ML models and to provide predictive outcomes.
+* IBM Spectrum LSF users can view these predictive outcomes in the Axomo portal, accessible via secured Site-to-Site VPN.

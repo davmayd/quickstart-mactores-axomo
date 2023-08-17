@@ -1,0 +1,17 @@
+This guide covers the information you need to deploy the {partner-product-name} Partner Solution in the AWS Cloud.
+
+It’s intended for users who manage IBM Spectrum LSF RTM, which is an operational dashboard for IBM Spectrum LSF environments that monitors, reports on, and manages load sharing facility (LSF) workloads.
+
+=== Axomo on AWS
+
+Axomo addresses an industry-wide problem that many companies face, in which much of their budget that’s spent on licenses and hardware stems from inefficient resource allocation. Also, there’s often an opportunity cost that results from a loss of productivity.
+
+Axomo on AWS helps mitigate these common challenges through advanced analytics. Via a comprehensive, pre-built dashboard, you can use Axomo on AWS to:
+
+* Optimize and predict cluster resources and license consumption of jobs on LSF clusters.
+* Identify underused hardware and misconfigurations.
+* Scale compute and storage.
+* Right-size resources used, such as the ratio of CPU to RAM.
+* Get views and insights based on job type.
+
+Axomo on AWS is available as a cost effective, secure, AWS serverless architecture that includes AWS Glue, Amazon Simple Storage Service (Amazon S3), Amazon SageMaker, and Amazon Athena.

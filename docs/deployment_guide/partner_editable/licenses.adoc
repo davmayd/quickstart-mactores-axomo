@@ -1,0 +1,7 @@
+// Include details about any licenses and how to sign up. Provide links as appropriate.
+
+There is no cost to use this Partner Solution, but you will be billed for any AWS services or resources that this Partner Solution deploys. For more information, refer to the https://fwd.aws/rA69w?[AWS Partner Solution General Information Guide^].
+
+This Partner Solution is free for all AWS customers without production support. To use the Partner Solution in your production environment with support, sign up for a production license at https://www.mactores.com/axomo-qs[[.underline]#https://www.mactores.com/axomo-qs#].
+
+If you don’t have a license, the Partner Solution will deploy an unlimited trial license, which allows unlimited days of free usage in a non-production environment. You can upgrade to a production license by following the instructions at https://www.mactores.com/axomo-qs#

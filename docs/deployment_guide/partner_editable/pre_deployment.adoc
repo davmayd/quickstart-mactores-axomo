@@ -1,0 +1,5 @@
+//Include any predeployment steps here, such as signing up for a Marketplace AMI or making any changes to a partner account. If there are no predeployment steps, leave this file empty.
+
+== Predeployment steps
+
+This Quick Start assumes familiarity with https://developer.ibm.com/storage/products/ibm-spectrum-lsf/[IBM Spectrum LSF], https://www.ibm.com/support/knowledgecenter/en/SSZT2D/rtm_welcome.html[IBM Spectrum LSF RTM], and optionally https://www.influxdata.com/time-series-platform/telegraf/[Telegraf].
